@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WhereismyBus - Official Website</title>
+
+  <title>WhereismyBus — Official Page</title>
+
   <style>
     * {
       margin: 0;
@@ -13,51 +15,382 @@
 
     body {
       min-height: 100vh;
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #0f172a, #2563eb);
+
+      font-family: "Segoe UI", Arial, sans-serif;
       color: white;
+
+      background:
+        radial-gradient(
+          circle at 50% 45%,
+          #173b52 0%,
+          #0b1d2a 35%,
+          #03070c 75%,
+          #010205 100%
+        );
+    }
+
+    /* Large atmospheric glow */
+    .glow {
+      position: absolute;
+      width: 520px;
+      height: 520px;
+
+      border-radius: 50%;
+
+      background: #00bfff;
+      filter: blur(150px);
+
+      opacity: 0.16;
+
+      animation: breathe 5s ease-in-out infinite alternate;
+    }
+
+    @keyframes breathe {
+      from {
+        transform: scale(0.75);
+        opacity: 0.10;
+      }
+
+      to {
+        transform: scale(1.25);
+        opacity: 0.25;
+      }
+    }
+
+    /* Main content */
+    .container {
+      position: relative;
+      z-index: 5;
+
+      width: min(1000px, 90vw);
+
       text-align: center;
     }
 
-    .container {
-      padding: 40px 24px;
+    .eyebrow {
+      font-size: clamp(0.75rem, 1.5vw, 1rem);
+
+      letter-spacing: 7px;
+      text-transform: uppercase;
+
+      color: #8edcff;
+
+      opacity: 0;
+      transform: translateY(25px);
+
+      animation: fadeUp 1.4s ease forwards;
+      animation-delay: 0.4s;
     }
 
-    .logo {
-      font-size: 3rem;
-      margin-bottom: 20px;
+    .title {
+      margin-top: 25px;
+
+      font-size: clamp(2.7rem, 7vw, 6.5rem);
+
+      line-height: 1.05;
+      font-weight: 800;
+
+      letter-spacing: -3px;
+
+      background: linear-gradient(
+        90deg,
+        #ffffff,
+        #7dd3fc,
+        #ffffff,
+        #38bdf8,
+        #ffffff
+      );
+
+      background-size: 300% auto;
+
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+
+      opacity: 0;
+      transform: translateY(45px) scale(0.94);
+
+      animation:
+        reveal 1.5s cubic-bezier(.2,.8,.2,1) forwards,
+        shine 6s linear infinite;
+
+      animation-delay: 0.9s, 2.4s;
+
+      text-shadow:
+        0 0 40px rgba(56, 189, 248, 0.12);
     }
 
-    h1 {
-      font-size: clamp(2rem, 6vw, 4rem);
-      margin-bottom: 16px;
-    }
-
-    p {
-      font-size: 1.2rem;
-      color: #dbeafe;
-    }
-
-    .badge {
-      display: inline-block;
+    .brand {
       margin-top: 28px;
-      padding: 10px 18px;
-      border: 1px solid rgba(255,255,255,.3);
-      border-radius: 999px;
-      background: rgba(255,255,255,.1);
-      backdrop-filter: blur(8px);
+
+      font-size: clamp(1.5rem, 3.5vw, 2.8rem);
+
+      font-weight: 600;
+
+      letter-spacing: 3px;
+
+      color: #bae6fd;
+
+      opacity: 0;
+      transform: translateY(25px);
+
+      animation: fadeUp 1.4s ease forwards;
+      animation-delay: 1.8s;
+    }
+
+    .brand span {
+      color: #38bdf8;
+
+      text-shadow:
+        0 0 15px rgba(56, 189, 248, 0.6),
+        0 0 40px rgba(56, 189, 248, 0.25);
+    }
+
+    .line {
+      width: 0;
+      height: 2px;
+
+      margin: 38px auto 0;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          #38bdf8,
+          #ffffff,
+          #38bdf8,
+          transparent
+        );
+
+      box-shadow:
+        0 0 15px rgba(56, 189, 248, 0.6);
+
+      animation: lineGrow 1.6s ease forwards;
+      animation-delay: 2.4s;
+    }
+
+    .subtext {
+      margin-top: 25px;
+
+      font-size: 0.9rem;
+      letter-spacing: 4px;
+
+      color: rgba(186, 230, 253, 0.55);
+
+      opacity: 0;
+
+      animation: fadeIn 2s ease forwards;
+      animation-delay: 3s;
+    }
+
+    /* Animations */
+
+    @keyframes reveal {
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes shine {
+      0% {
+        background-position: 0% center;
+      }
+
+      100% {
+        background-position: 300% center;
+      }
+    }
+
+    @keyframes lineGrow {
+      to {
+        width: min(650px, 75vw);
+      }
+    }
+
+    /* Floating particles */
+
+    .particle {
+      position: absolute;
+
+      width: 3px;
+      height: 3px;
+
+      border-radius: 50%;
+
+      background: #ffffff;
+
+      box-shadow:
+        0 0 8px #38bdf8,
+        0 0 15px rgba(56, 189, 248, 0.7);
+
+      opacity: 0;
+
+      animation: float linear infinite;
+    }
+
+    @keyframes float {
+      0% {
+        transform:
+          translateY(110vh)
+          translateX(0)
+          scale(0);
+
+        opacity: 0;
+      }
+
+      15% {
+        opacity: 0.8;
+      }
+
+      50% {
+        transform:
+          translateY(50vh)
+          translateX(30px)
+          scale(1);
+      }
+
+      85% {
+        opacity: 0.5;
+      }
+
+      100% {
+        transform:
+          translateY(-10vh)
+          translateX(-30px)
+          scale(0.5);
+
+        opacity: 0;
+      }
+    }
+
+    /* Subtle rotating rings */
+
+    .ring {
+      position: absolute;
+
+      width: 600px;
+      height: 600px;
+
+      border: 1px solid rgba(56, 189, 248, 0.07);
+
+      border-radius: 50%;
+
+      animation: rotate 25s linear infinite;
+    }
+
+    .ring::before {
+      content: "";
+
+      position: absolute;
+
+      inset: 45px;
+
+      border: 1px solid rgba(56, 189, 248, 0.04);
+
+      border-radius: 50%;
+    }
+
+    @keyframes rotate {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      .ring {
+        width: 400px;
+        height: 400px;
+      }
+
+      .title {
+        letter-spacing: -1px;
+      }
+
+      .brand {
+        letter-spacing: 1px;
+      }
     }
   </style>
 </head>
+
 <body>
+
+  <div class="glow"></div>
+  <div class="ring"></div>
+
   <main class="container">
-    <div class="logo">🚌</div>
-    <h1>Hello!</h1>
-    <p>This is the official website of <strong>WhereismyBus</strong>.</p>
-    <div class="badge">WhereismyBus 🚍</div>
+
+    <div class="eyebrow">
+      Welcome
+    </div>
+
+    <h1 class="title">
+      This is the official page of
+    </h1>
+
+    <div class="brand">
+      <span>WhereismyBus</span>
+    </div>
+
+    <div class="line"></div>
+
+    <div class="subtext">
+      YOUR JOURNEY • YOUR BUS • YOUR WAY
+    </div>
+
   </main>
+
+  <script>
+    // Generate floating glowing particles
+    const particleCount = 90;
+
+    for (let i = 0; i < particleCount; i++) {
+
+      const particle = document.createElement("div");
+
+      particle.className = "particle";
+
+      particle.style.left =
+        Math.random() * 100 + "vw";
+
+      particle.style.animationDuration =
+        (6 + Math.random() * 12) + "s";
+
+      particle.style.animationDelay =
+        Math.random() * 12 + "s";
+
+      const size =
+        1 + Math.random() * 3;
+
+      particle.style.width = size + "px";
+      particle.style.height = size + "px";
+
+      document.body.appendChild(particle);
+    }
+  </script>
+
 </body>
 </html>
