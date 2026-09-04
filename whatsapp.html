@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+
+    <!-- Important for Android and iOS -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>HITAM Bus Support</title>
@@ -14,50 +17,78 @@
         body {
             margin: 0;
             min-height: 100vh;
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             font-family: Arial, Helvetica, sans-serif;
+
             background: #f5f7fa;
         }
 
         .container {
             width: 90%;
             max-width: 420px;
+
             padding: 30px;
+
             text-align: center;
+
             background: #ffffff;
+
             border-radius: 16px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.10);
+
+            box-shadow:
+                0 8px 30px rgba(0, 0, 0, 0.10);
         }
 
         h1 {
             margin-top: 0;
+
             color: #222;
+
             font-size: 26px;
         }
 
         p {
             color: #666;
+
             line-height: 1.5;
         }
 
         .whatsapp-button {
             margin-top: 20px;
+
             width: 100%;
+
             padding: 15px 20px;
+
             border: none;
+
             border-radius: 10px;
+
             background: #25D366;
+
             color: white;
+
             font-size: 17px;
+
             font-weight: bold;
+
             cursor: pointer;
+
             display: flex;
+
             align-items: center;
+
             justify-content: center;
+
             gap: 10px;
-            transition: background 0.2s ease, transform 0.1s ease;
+
+            transition:
+                background 0.2s ease,
+                transform 0.1s ease;
         }
 
         .whatsapp-button:hover {
@@ -75,11 +106,14 @@
 
         .note {
             margin-top: 18px;
+
             font-size: 13px;
+
             color: #888;
         }
     </style>
 </head>
+
 
 <body>
 
@@ -92,14 +126,22 @@
             Contact us through WhatsApp.
         </p>
 
+
+        <!-- WhatsApp Button -->
+
         <button
             type="button"
             class="whatsapp-button"
             onclick="openWhatsApp()"
         >
-            <span>💬</span>
+
+            <!-- WhatsApp icon -->
+            <span style="font-size: 26px;">💬</span>
+
             Contact on WhatsApp
+
         </button>
+
 
         <div class="note">
             WhatsApp will open with a pre-filled message.
@@ -108,16 +150,22 @@
     </div>
 
 
+
     <script>
 
         /*
-         * Detect the user's mobile operating system.
+         * =========================================================
+         * FUNCTION 1: DETECT MOBILE OPERATING SYSTEM
+         * =========================================================
          *
          * Returns:
-         *     "Android"
-         *     "iOS"
-         *     "Unknown"
+         *
+         * Android
+         * iOS
+         * Unknown
+         *
          */
+
         function getMobileOS() {
 
             const userAgent =
@@ -126,13 +174,25 @@
                 window.opera;
 
 
-            // Android
+            /*
+             * Check for Android
+             */
+
             if (/android/i.test(userAgent)) {
+
                 return "Android";
+
             }
 
 
-            // iPhone / iPad / iPod
+            /*
+             * Check for iPhone / iPad / iPod
+             *
+             * The MacIntel + maxTouchPoints check is included
+             * because newer iPads can sometimes identify
+             * themselves as Macintosh.
+             */
+
             if (
                 /iPad|iPhone|iPod/.test(userAgent) ||
                 (
@@ -140,39 +200,90 @@
                     navigator.maxTouchPoints > 1
                 )
             ) {
+
                 return "iOS";
+
             }
 
 
-            // Other devices
+            /*
+             * If the device is not Android or iOS
+             */
+
             return "Unknown";
         }
 
 
+
         /*
-         * Open WhatsApp with a pre-filled message.
+         * =========================================================
+         * FUNCTION 2: OPEN WHATSAPP
+         * =========================================================
+         *
+         * This function:
+         *
+         * 1. Detects the user's operating system.
+         * 2. Creates the WhatsApp message.
+         * 3. Adds the mobile OS automatically.
+         * 4. Opens WhatsApp chat with the specified number.
+         *
          */
+
         function openWhatsApp() {
 
-            // Automatically detect operating system
+
+            /*
+             * Get user's operating system
+             */
+
             const mobileOS = getMobileOS();
 
 
-            // WhatsApp message
+
+            /*
+             * Create WhatsApp message.
+             *
+             * WhatsApp uses:
+             *
+             * *text*
+             *
+             * for bold text.
+             */
+
             const message =
-`Name        : < please write your name, here >
-Mobile OS   : ${mobileOS}
-Institution : HITAM
-Route no    : < please write your bus route number, here >
-Issue       : < please write your issue, here >`;
+`*Name:*
+< please write your name, here >
+
+*Mobile OS:*
+${mobileOS}
+
+*Institution:*
+HITAM
+
+*Route no:*
+< please write your bus route number, here >
+
+*Issue:*
+< please write your issue, here >`;
 
 
-            // WhatsApp phone number.
-            // India country code (+91) is included.
+
+            /*
+             * WhatsApp number.
+             *
+             * 91 = India country code
+             *
+             * 9010025943 = mobile number
+             */
+
             const phoneNumber = "919010025943";
 
 
-            // Create WhatsApp URL
+
+            /*
+             * Create WhatsApp Click-to-Chat URL
+             */
+
             const whatsappURL =
                 "https://wa.me/" +
                 phoneNumber +
@@ -180,11 +291,17 @@ Issue       : < please write your issue, here >`;
                 encodeURIComponent(message);
 
 
-            // Open WhatsApp
+
+            /*
+             * Open WhatsApp
+             */
+
             window.location.href = whatsappURL;
+
         }
 
     </script>
 
 </body>
+
 </html>
