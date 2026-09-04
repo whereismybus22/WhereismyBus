@@ -4,10 +4,12 @@
 <head>
     <meta charset="UTF-8">
 
-    <!-- Mobile responsive support -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <title>HITAM Bus Support - Gmail</title>
+    <title>HITAM Bus Support</title>
 
     <style>
         * {
@@ -39,7 +41,8 @@
 
             border-radius: 16px;
 
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.10);
+            box-shadow:
+                0 8px 30px rgba(0, 0, 0, 0.10);
         }
 
         h1 {
@@ -98,11 +101,6 @@
             transform: scale(0.98);
         }
 
-        .gmail-icon {
-            width: 28px;
-            height: 28px;
-        }
-
         .note {
             margin-top: 18px;
 
@@ -122,7 +120,7 @@
 
         <p>
             Facing an issue with your bus service?
-            Send us an email through Gmail.
+            Contact us through Gmail.
         </p>
 
 
@@ -134,10 +132,11 @@
             onclick="openGmail()"
         >
 
-            <!-- Gmail icon -->
-            <span style="font-size: 26px;">✉️</span>
+            <span style="font-size: 26px;">
+                ✉️
+            </span>
 
-            Send Email
+            Contact via Gmail
 
         </button>
 
@@ -157,12 +156,6 @@
          * FUNCTION 1
          * DETECT MOBILE OPERATING SYSTEM
          * =========================================================
-         *
-         * Returns:
-         *
-         * Android
-         * iOS
-         * Unknown
          */
 
         function getMobileOS() {
@@ -173,29 +166,34 @@
                 window.opera;
 
 
-            // Android
+            /*
+             * Android
+             */
+
             if (/android/i.test(userAgent)) {
-
                 return "Android";
-
             }
 
 
-            // iPhone / iPad / iPod
+            /*
+             * iPhone / iPad / iPod
+             */
+
             if (
-                /iPad|iPhone|iPod/.test(userAgent) ||
+                /iPad|iPhone|iPod/i.test(userAgent) ||
                 (
                     navigator.platform === "MacIntel" &&
                     navigator.maxTouchPoints > 1
                 )
             ) {
-
                 return "iOS";
-
             }
 
 
-            // Other devices
+            /*
+             * Other devices
+             */
+
             return "Unknown";
         }
 
@@ -204,40 +202,14 @@
         /*
          * =========================================================
          * FUNCTION 2
-         * OPEN GMAIL
+         * CREATE EMAIL BODY
          * =========================================================
-         *
-         * Creates a pre-filled Gmail compose window.
          */
 
-        function openGmail() {
-
-            /*
-             * Detect operating system
-             */
+        function createEmailBody() {
 
             const mobileOS = getMobileOS();
 
-
-            /*
-             * Email recipient
-             */
-
-            const recipient =
-                "whereismybus22@gmail.com";
-
-
-            /*
-             * Email subject
-             */
-
-            const subject =
-                "Issue with app.";
-
-
-            /*
-             * Email body
-             */
 
             const body =
 `Name:
@@ -259,45 +231,206 @@ Issue:
 < please write your issue, here >`;
 
 
-            /*
-             * Encode subject and body
-             */
+            return body;
+        }
+
+
+
+        /*
+         * =========================================================
+         * FUNCTION 3
+         * OPEN GMAIL APP
+         * =========================================================
+         *
+         * Android:
+         * Uses Gmail's Android application deep-link.
+         *
+         * iOS:
+         * Uses Gmail's iOS URL scheme.
+         *
+         * Fallback:
+         * Uses mailto: if the app deep-link cannot be handled.
+         */
+
+        function openGmail() {
+
+            const recipient =
+                "whereismybus22@gmail.com";
+
+
+            const subject =
+                "Issue with app.";
+
+
+            const body =
+                createEmailBody();
+
+
+            const encodedRecipient =
+                encodeURIComponent(recipient);
+
 
             const encodedSubject =
                 encodeURIComponent(subject);
+
 
             const encodedBody =
                 encodeURIComponent(body);
 
 
+            const userAgent =
+                navigator.userAgent ||
+                navigator.vendor ||
+                window.opera;
+
+
+
             /*
              * =====================================================
-             * GMAIL COMPOSE URL
+             * ANDROID
              * =====================================================
              *
-             * This opens Gmail's compose page.
+             * Gmail Android app uses the package:
              *
-             * On phones where the Gmail app handles Gmail links,
-             * the Gmail application may open.
+             * com.google.android.gm
+             *
+             * We use the Gmail-specific Android intent URI.
              */
 
-            const gmailURL =
-                "https://mail.google.com/mail/?view=cm" +
-                "&fs=1" +
-                "&to=" +
-                encodeURIComponent(recipient) +
-                "&su=" +
-                encodedSubject +
+            if (/android/i.test(userAgent)) {
+
+                const androidGmailURL =
+                    "intent://compose/" +
+                    "?to=" + encodedRecipient +
+                    "&subject=" + encodedSubject +
+                    "&body=" + encodedBody +
+                    "#Intent;" +
+                    "scheme=gmail;" +
+                    "package=com.google.android.gm;" +
+                    "end";
+
+
+                /*
+                 * Try opening Gmail Android app.
+                 */
+
+                window.location.href = androidGmailURL;
+
+
+                /*
+                 * Fallback after a short delay.
+                 *
+                 * If Gmail is not installed or the intent
+                 * cannot be handled, use mailto.
+                 */
+
+                setTimeout(function () {
+
+                    openMailto(
+                        recipient,
+                        subject,
+                        body
+                    );
+
+                }, 1500);
+
+
+                return;
+            }
+
+
+
+            /*
+             * =====================================================
+             * iOS
+             * =====================================================
+             *
+             * Gmail's iOS URL scheme:
+             *
+             * googlegmail://
+             */
+
+            if (
+                /iPad|iPhone|iPod/i.test(userAgent) ||
+                (
+                    navigator.platform === "MacIntel" &&
+                    navigator.maxTouchPoints > 1
+                )
+            ) {
+
+                const iosGmailURL =
+                    "googlegmail://co" +
+                    "?to=" + encodedRecipient +
+                    "&subject=" + encodedSubject +
+                    "&body=" + encodedBody;
+
+
+                /*
+                 * Try Gmail iOS app.
+                 */
+
+                window.location.href = iosGmailURL;
+
+
+                /*
+                 * Fallback to mailto.
+                 */
+
+                setTimeout(function () {
+
+                    openMailto(
+                        recipient,
+                        subject,
+                        body
+                    );
+
+                }, 1500);
+
+
+                return;
+            }
+
+
+
+            /*
+             * =====================================================
+             * DESKTOP / OTHER DEVICES
+             * =====================================================
+             */
+
+            openMailto(
+                recipient,
+                subject,
+                body
+            );
+
+        }
+
+
+
+        /*
+         * =========================================================
+         * FUNCTION 4
+         * MAILTO FALLBACK
+         * =========================================================
+         */
+
+        function openMailto(
+            recipient,
+            subject,
+            body
+        ) {
+
+            const mailtoURL =
+                "mailto:" +
+                recipient +
+                "?subject=" +
+                encodeURIComponent(subject) +
                 "&body=" +
-                encodedBody;
+                encodeURIComponent(body);
 
 
-            /*
-             * Open Gmail compose
-             */
-
-            window.location.href = gmailURL;
-
+            window.location.href = mailtoURL;
         }
 
     </script>
