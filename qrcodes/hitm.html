@@ -1,652 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>Please Visit After September 5th</title>
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html,
-    body {
-      width: 100%;
-      height: 100%;
-    }
-
-    body {
-      min-height: 100vh;
-      overflow: hidden;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      font-family: "Segoe UI", Arial, sans-serif;
-      color: white;
-
-      background:
-        radial-gradient(
-          circle at 50% 45%,
-          #292052 0%,
-          #15102d 30%,
-          #090718 60%,
-          #020208 100%
-        );
-    }
-
-    /* =========================================================
-       MAIN AMBIENT GLOW
-       ========================================================= */
-
-    .glow {
-      position: absolute;
-
-      width: 550px;
-      height: 550px;
-
-      border-radius: 50%;
-
-      background: #8b5cf6;
-
-      filter: blur(150px);
-
-      opacity: 0.15;
-
-      animation:
-        breathe 6s ease-in-out infinite alternate,
-        glowPulse 8s ease-in-out infinite;
-    }
-
-    @keyframes breathe {
-      0% {
-        transform: scale(0.75);
-        opacity: 0.10;
-      }
-
-      50% {
-        opacity: 0.18;
-      }
-
-      100% {
-        transform: scale(1.25);
-        opacity: 0.28;
-      }
-    }
-
-    @keyframes glowPulse {
-      0%,
-      100% {
-        filter: blur(150px);
-      }
-
-      50% {
-        filter: blur(180px);
-      }
-    }
-
-
-    /* =========================================================
-       SUBTLE ROTATING RINGS
-       ========================================================= */
-
-    .ring {
-      position: absolute;
-
-      width: 650px;
-      height: 650px;
-
-      border-radius: 50%;
-
-      border: 1px solid rgba(167, 139, 250, 0.07);
-
-      animation: rotate 30s linear infinite;
-    }
-
-    .ring::before {
-      content: "";
-
-      position: absolute;
-
-      inset: 45px;
-
-      border-radius: 50%;
-
-      border: 1px solid rgba(167, 139, 250, 0.045);
-    }
-
-    .ring::after {
-      content: "";
-
-      position: absolute;
-
-      inset: 100px;
-
-      border-radius: 50%;
-
-      border: 1px solid rgba(196, 181, 253, 0.025);
-    }
-
-    @keyframes rotate {
-      from {
-        transform: rotate(0deg);
-      }
-
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-
-    /* =========================================================
-       MAIN CONTENT
-       ========================================================= */
-
-    .container {
-      position: relative;
-
-      z-index: 10;
-
-      width: min(1000px, 90vw);
-
-      text-align: center;
-
-      padding: 30px;
-    }
-
-
-    /* =========================================================
-       SMALL INTRO TEXT
-       ========================================================= */
-
-    .small-text {
-      font-size: clamp(0.7rem, 1.5vw, 1rem);
-
-      letter-spacing: 7px;
-
-      text-transform: uppercase;
-
-      color: #c4b5fd;
-
-      opacity: 0;
-
-      transform: translateY(25px);
-
-      animation:
-        fadeUp 1.5s cubic-bezier(.2,.8,.2,1) forwards;
-
-      animation-delay: 0.4s;
-
-      text-shadow:
-        0 0 20px rgba(167, 139, 250, 0.25);
-    }
-
-
-    /* =========================================================
-       MAIN HEADING
-       ========================================================= */
-
-    h1 {
-      margin-top: 25px;
-
-      font-size: clamp(3.2rem, 9vw, 8rem);
-
-      line-height: 0.95;
-
-      font-weight: 800;
-
-      letter-spacing: -4px;
-
-      background:
-        linear-gradient(
-          90deg,
-          #ffffff,
-          #ddd6fe,
-          #ffffff,
-          #a78bfa,
-          #ffffff,
-          #c4b5fd,
-          #ffffff
-        );
-
-      background-size: 400% auto;
-
-      -webkit-background-clip: text;
-      background-clip: text;
-
-      color: transparent;
-
-      opacity: 0;
-
-      transform:
-        translateY(50px)
-        scale(0.92);
-
-      animation:
-        reveal 1.6s cubic-bezier(.2,.8,.2,1) forwards,
-        shine 7s linear infinite;
-
-      animation-delay:
-        0.9s,
-        2.5s;
-
-      text-shadow:
-        0 0 50px rgba(167, 139, 250, 0.12);
-    }
-
-
-    /* =========================================================
-       DATE TEXT
-       ========================================================= */
-
-    .date {
-      margin-top: 35px;
-
-      font-size: clamp(1.1rem, 3vw, 2rem);
-
-      font-weight: 500;
-
-      color: #ddd6fe;
-
-      letter-spacing: 5px;
-
-      opacity: 0;
-
-      transform: translateY(25px);
-
-      animation:
-        fadeUp 1.5s cubic-bezier(.2,.8,.2,1) forwards;
-
-      animation-delay: 1.9s;
-
-      text-shadow:
-        0 0 20px rgba(167, 139, 250, 0.35),
-        0 0 50px rgba(139, 92, 246, 0.15);
-    }
-
-
-    /* =========================================================
-       ANIMATED LINE
-       ========================================================= */
-
-    .line {
-      position: relative;
-
-      width: 0;
-
-      height: 2px;
-
-      margin: 38px auto 0;
-
-      background:
-        linear-gradient(
-          90deg,
-          transparent,
-          #8b5cf6,
-          #ffffff,
-          #a78bfa,
-          transparent
-        );
-
-      box-shadow:
-        0 0 12px rgba(167, 139, 250, 0.6),
-        0 0 30px rgba(139, 92, 246, 0.25);
-
-      animation:
-        lineGrow 1.6s cubic-bezier(.2,.8,.2,1) forwards;
-
-      animation-delay: 2.4s;
-    }
-
-    /* Moving light across the line */
-
-    .line::after {
-      content: "";
-
-      position: absolute;
-
-      top: -3px;
-      left: -20%;
-
-      width: 20%;
-      height: 8px;
-
-      background: rgba(255, 255, 255, 0.8);
-
-      filter: blur(5px);
-
-      animation: lineLight 3s ease-in-out infinite;
-
-      animation-delay: 4s;
-    }
-
-
-    /* =========================================================
-       SUBTEXT
-       ========================================================= */
-
-    .subtext {
-      margin-top: 24px;
-
-      font-size: 0.75rem;
-
-      letter-spacing: 5px;
-
-      text-transform: uppercase;
-
-      color: rgba(196, 181, 253, 0.45);
-
-      opacity: 0;
-
-      animation:
-        fadeIn 2s ease forwards;
-
-      animation-delay: 3s;
-    }
-
-
-    /* =========================================================
-       ANIMATIONS
-       ========================================================= */
-
-    @keyframes reveal {
-      0% {
-        opacity: 0;
-
-        transform:
-          translateY(50px)
-          scale(0.92);
-
-        filter: blur(10px);
-      }
-
-      70% {
-        filter: blur(0);
-      }
-
-      100% {
-        opacity: 1;
-
-        transform:
-          translateY(0)
-          scale(1);
-
-        filter: blur(0);
-      }
-    }
-
-
-    @keyframes fadeUp {
-      to {
-        opacity: 1;
-
-        transform:
-          translateY(0);
-      }
-    }
-
-
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
-    }
-
-
-    @keyframes shine {
-      0% {
-        background-position: 0% center;
-      }
-
-      100% {
-        background-position: 400% center;
-      }
-    }
-
-
-    @keyframes lineGrow {
-      to {
-        width: min(600px, 78vw);
-      }
-    }
-
-
-    @keyframes lineLight {
-      0% {
-        left: -20%;
-        opacity: 0;
-      }
-
-      20% {
-        opacity: 1;
-      }
-
-      70% {
-        opacity: 0.8;
-      }
-
-      100% {
-        left: 100%;
-        opacity: 0;
-      }
-    }
-
-
-    /* =========================================================
-       FLOATING PARTICLES
-       ========================================================= */
-
-    .particle {
-      position: absolute;
-
-      width: 3px;
-      height: 3px;
-
-      border-radius: 50%;
-
-      background: #ffffff;
-
-      box-shadow:
-        0 0 8px #a78bfa,
-        0 0 15px rgba(167, 139, 250, 0.8);
-
-      opacity: 0;
-
-      animation: float linear infinite;
-    }
-
-    @keyframes float {
-      0% {
-        transform:
-          translateY(110vh)
-          translateX(0)
-          scale(0);
-
-        opacity: 0;
-      }
-
-      15% {
-        opacity: 0.8;
-      }
-
-      50% {
-        transform:
-          translateY(50vh)
-          translateX(30px)
-          scale(1);
-      }
-
-      85% {
-        opacity: 0.5;
-      }
-
-      100% {
-        transform:
-          translateY(-10vh)
-          translateX(-30px)
-          scale(0.5);
-
-        opacity: 0;
-      }
-    }
-
-
-    /* =========================================================
-       SOFT VIGNETTE
-       ========================================================= */
-
-    .vignette {
-      position: fixed;
-
-      inset: 0;
-
-      pointer-events: none;
-
-      z-index: 20;
-
-      background:
-        radial-gradient(
-          circle,
-          transparent 40%,
-          rgba(0, 0, 0, 0.25) 100%
-        );
-    }
-
-
-    /* =========================================================
-       MOBILE
-       ========================================================= */
-
-    @media (max-width: 600px) {
-
-      .ring {
-        width: 420px;
-        height: 420px;
-      }
-
-      h1 {
-        letter-spacing: -2px;
-      }
-
-      .date {
-        letter-spacing: 3px;
-      }
-
-      .small-text {
-        letter-spacing: 4px;
-      }
-
-      .subtext {
-        letter-spacing: 3px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HITAM App Portal</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        .main-card {
+            max-width: 400px;
+            width: 100%;
+            border-radius: 20px;
+            background: #ffffff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .store-icon-wrapper {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+            transition: transform 0.2s;
+        }
+        .store-icon-wrapper:hover {
+            transform: scale(1.1);
+        }
+        .btn-download {
+            border: 2px solid #333;
+            border-radius: 10px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .btn-download:hover {
+            background-color: #333;
+            color: #fff;
+        }
+        .cred-box {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+        }
+        .copy-btn {
+            cursor: pointer;
+            color: #6c757d;
+            transition: color 0.2s;
+        }
+        .copy-btn:hover {
+            color: #0d6efd;
+        }
+        .contact-btn {
+            cursor: pointer;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .contact-btn:hover {
+            transform: translateY(-3px);
+        }
+        .contact-icon-box {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            margin-bottom: 8px;
+            font-size: 1.8rem;
+            transition: border-color 0.2s;
+        }
+        .contact-btn:hover .contact-icon-box.wa-box { border-color: #198754; color: #198754; }
+
+        /* Toast Notification Styles */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 30px;
+            padding: 12px 24px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.3s, bottom 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 50px;
+        }
+    </style>
 </head>
+<body class="d-flex align-items-center justify-content-center min-vh-100 p-3">
 
+    <div class="main-card p-4 p-sm-5 container">
+        
+        <!-- App Store Links Section -->
+        <div class="row text-center mb-5">
+            <!-- Play Store -->
+            <div class="col-6 d-flex flex-column align-items-center">
+                <a href="https://play.google.com/store/apps/details?id=com.navi_telematics.tracky.prod" target="_blank" class="text-decoration-none text-dark">
+                    <div class="store-icon-wrapper text-success">
+                        <i class="bi bi-google-play"></i>
+                    </div>
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=com.navi_telematics.tracky.prod" target="_blank" class="btn btn-download w-100 mt-2">Download</a>
+            </div>
+            
+            <!-- App Store -->
+            <div class="col-6 d-flex flex-column align-items-center">
+                <a href="https://apps.apple.com/in/app/trackverse/id6746325658" target="_blank" class="text-decoration-none text-dark">
+                    <div class="store-icon-wrapper text-dark">
+                        <i class="bi bi-apple"></i>
+                    </div>
+                </a>
+                <a href="https://apps.apple.com/in/app/trackverse/id6746325658" target="_blank" class="btn btn-download w-100 mt-2">Download</a>
+            </div>
+        </div>
 
-<body>
+        <!-- Credentials Section -->
+        <div class="cred-box mb-5">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted fw-medium">Username :</span>
+                <div class="d-flex align-items-center">
+                    <span class="fw-bold me-3 text-break" id="usernameText">ao@hitam.org</span>
+                    <i class="bi bi-copy copy-btn fs-5" onclick="copyToClipboard('usernameText')" title="Copy Username"></i>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+                <span class="text-muted fw-medium">Password :</span>
+                <div class="d-flex align-items-center">
+                    <span class="fw-bold me-3 text-break" id="passwordText">Psai123@.com</span>
+                    <i class="bi bi-copy copy-btn fs-5" onclick="copyToClipboard('passwordText')" title="Copy Password"></i>
+                </div>
+            </div>
+        </div>
 
-  <!-- Ambient background glow -->
-  <div class="glow"></div>
+        <!-- Contact Section -->
+        <div class="text-center">
+            <h5 class="fw-bold mb-4">Contact us</h5>
+            <div class="d-flex justify-content-center gap-4">
+                
+                <!-- WhatsApp Button -->
+                <div class="contact-btn" onclick="openWhatsApp()">
+                    <div class="contact-icon-box wa-box">
+                        <i class="bi bi-whatsapp"></i>
+                    </div>
+                    <div class="fw-medium">Whatsapp</div>
+                </div>
+                
+            </div>
+        </div>
 
-  <!-- Subtle animated rings -->
-  <div class="ring"></div>
-
-  <!-- Main content -->
-  <div class="container">
-
-    <div class="small-text">
-      Work in progress
     </div>
 
-    <h1>
-      Please Visit
-    </h1>
+    <!-- Custom Toast Element -->
+    <div id="toast">Copied to clipboard!</div>
 
-    <div class="date">
-      AFTER SEPTEMBER 5th
-    </div>
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <div class="line"></div>
+    <!-- App Logic Scripts -->
+    <script>
+        /* =========================================================
+         * TOAST NOTIFICATION UTILITY
+         * ========================================================= */
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.innerText = message;
+            toast.classList.add("show");
+            
+            // Hide after 2.5 seconds
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 2500);
+        }
 
-    <div class="subtext">
-      We'll see you soon
-    </div>
+        /* =========================================================
+         * COPY TO CLIPBOARD UTILITY 
+         * ========================================================= */
+        function copyToClipboard(elementId) {
+            const textToCopy = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                showToast("Copied: " + textToCopy);
+            }).catch(err => {
+                console.error('Failed to copy!', err);
+                showToast("Failed to copy text.");
+            });
+        }
 
-  </div>
+        /* =========================================================
+         * PWA SAFE AREA
+         * ========================================================= */
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            document.querySelector('.container').style.paddingBottom = 'env(safe-area-inset-bottom, 3px)';
+        }
 
-  <!-- Cinematic vignette -->
-  <div class="vignette"></div>
+        /* =========================================================
+         * FUNCTION: GET MOBILE OS 
+         * ========================================================= */
+        function getMobileOS() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            
+            // Check for Android
+            if (/android/i.test(userAgent)) {
+                return "Android";
+            }
+            // Check for iPhone / iPad / iPod
+            if (/iPad|iPhone|iPod/.test(userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)) {
+                return "iOS";
+            }
+            return "Unknown";
+        }
 
+        /* =========================================================
+         * FUNCTION: OPEN WHATSAPP
+         * ========================================================= */
+        function openWhatsApp() {
+            const mobileOS = getMobileOS();
+            const message = 
+`*Name:*
+< please write your name, here >
 
-  <script>
+*Mobile OS:*
+${mobileOS}
 
-    /*
-     * ============================================================
-     * BEAUTIFUL FLOATING PARTICLES
-     * ============================================================
-     */
+*Institution:*
+HITAM
 
-    const particleCount = 100;
+*Route no:*
+< please write your bus route number, here >
 
-    for (let i = 0; i < particleCount; i++) {
+*Issue:*
+< please write your issue, here >`;
 
-      const particle = document.createElement("div");
-
-      particle.className = "particle";
-
-      /*
-       * Random horizontal position
-       */
-      particle.style.left =
-        Math.random() * 100 + "vw";
-
-      /*
-       * Random animation speed
-       */
-      particle.style.animationDuration =
-        (6 + Math.random() * 12) + "s";
-
-      /*
-       * Random starting delay
-       */
-      particle.style.animationDelay =
-        Math.random() * 12 + "s";
-
-      /*
-       * Random particle size
-       */
-      const size =
-        1 + Math.random() * 3;
-
-      particle.style.width =
-        size + "px";
-
-      particle.style.height =
-        size + "px";
-
-      /*
-       * Random purple/white particle colors
-       */
-      const colors = [
-        "#ffffff",
-        "#c4b5fd",
-        "#a78bfa",
-        "#ddd6fe"
-      ];
-
-      particle.style.background =
-        colors[Math.floor(Math.random() * colors.length)];
-
-      document.body.appendChild(particle);
-    }
-
-  </script>
-
+            const phoneNumber = "919010025943";
+            const whatsappURL = "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message);
+            window.location.href = whatsappURL;
+        }
+    </script>
 </body>
 </html>
