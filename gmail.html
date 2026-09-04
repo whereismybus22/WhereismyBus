@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Mobile responsive support -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HITAM Bus Support - Gmail</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            background: #f5f7fa;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 420px;
+
+            padding: 30px;
+
+            text-align: center;
+
+            background: #ffffff;
+
+            border-radius: 16px;
+
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.10);
+        }
+
+        h1 {
+            margin-top: 0;
+
+            color: #222;
+
+            font-size: 26px;
+        }
+
+        p {
+            color: #666;
+
+            line-height: 1.5;
+        }
+
+        .gmail-button {
+            margin-top: 20px;
+
+            width: 100%;
+
+            padding: 15px 20px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background: #ea4335;
+
+            color: white;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 10px;
+
+            transition:
+                background 0.2s ease,
+                transform 0.1s ease;
+        }
+
+        .gmail-button:hover {
+            background: #d93025;
+        }
+
+        .gmail-button:active {
+            transform: scale(0.98);
+        }
+
+        .gmail-icon {
+            width: 28px;
+            height: 28px;
+        }
+
+        .note {
+            margin-top: 18px;
+
+            font-size: 13px;
+
+            color: #888;
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <div class="container">
+
+        <h1>HITAM Bus Support</h1>
+
+        <p>
+            Facing an issue with your bus service?
+            Send us an email through Gmail.
+        </p>
+
+
+        <!-- Gmail Button -->
+
+        <button
+            type="button"
+            class="gmail-button"
+            onclick="openGmail()"
+        >
+
+            <!-- Gmail icon -->
+            <span style="font-size: 26px;">✉️</span>
+
+            Send Email
+
+        </button>
+
+
+        <div class="note">
+            Gmail will open with a pre-filled email.
+        </div>
+
+    </div>
+
+
+
+    <script>
+
+        /*
+         * =========================================================
+         * FUNCTION 1
+         * DETECT MOBILE OPERATING SYSTEM
+         * =========================================================
+         *
+         * Returns:
+         *
+         * Android
+         * iOS
+         * Unknown
+         */
+
+        function getMobileOS() {
+
+            const userAgent =
+                navigator.userAgent ||
+                navigator.vendor ||
+                window.opera;
+
+
+            // Android
+            if (/android/i.test(userAgent)) {
+
+                return "Android";
+
+            }
+
+
+            // iPhone / iPad / iPod
+            if (
+                /iPad|iPhone|iPod/.test(userAgent) ||
+                (
+                    navigator.platform === "MacIntel" &&
+                    navigator.maxTouchPoints > 1
+                )
+            ) {
+
+                return "iOS";
+
+            }
+
+
+            // Other devices
+            return "Unknown";
+        }
+
+
+
+        /*
+         * =========================================================
+         * FUNCTION 2
+         * OPEN GMAIL
+         * =========================================================
+         *
+         * Creates a pre-filled Gmail compose window.
+         */
+
+        function openGmail() {
+
+            /*
+             * Detect operating system
+             */
+
+            const mobileOS = getMobileOS();
+
+
+            /*
+             * Email recipient
+             */
+
+            const recipient =
+                "whereismybus22@gmail.com";
+
+
+            /*
+             * Email subject
+             */
+
+            const subject =
+                "Issue with app.";
+
+
+            /*
+             * Email body
+             */
+
+            const body =
+`Name:
+< please write your name, here >
+
+Mobile number:
+< please write your mobile number, here >
+
+Mobile OS:
+${mobileOS}
+
+Institution:
+HITAM
+
+Route no:
+< please write your bus route number, here >
+
+Issue:
+< please write your issue, here >`;
+
+
+            /*
+             * Encode subject and body
+             */
+
+            const encodedSubject =
+                encodeURIComponent(subject);
+
+            const encodedBody =
+                encodeURIComponent(body);
+
+
+            /*
+             * =====================================================
+             * GMAIL COMPOSE URL
+             * =====================================================
+             *
+             * This opens Gmail's compose page.
+             *
+             * On phones where the Gmail app handles Gmail links,
+             * the Gmail application may open.
+             */
+
+            const gmailURL =
+                "https://mail.google.com/mail/?view=cm" +
+                "&fs=1" +
+                "&to=" +
+                encodeURIComponent(recipient) +
+                "&su=" +
+                encodedSubject +
+                "&body=" +
+                encodedBody;
+
+
+            /*
+             * Open Gmail compose
+             */
+
+            window.location.href = gmailURL;
+
+        }
+
+    </script>
+
+</body>
+
+</html>
