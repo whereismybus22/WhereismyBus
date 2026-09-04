@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HITAM App Portal</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        .main-card {
+            max-width: 400px;
+            width: 100%;
+            border-radius: 20px;
+            background: #ffffff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .store-icon-wrapper {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+            transition: transform 0.2s;
+        }
+        .store-icon-wrapper:hover {
+            transform: scale(1.1);
+        }
+        .btn-download {
+            border: 2px solid #333;
+            border-radius: 10px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .btn-download:hover {
+            background-color: #333;
+            color: #fff;
+        }
+        .cred-box {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+        }
+        .copy-btn {
+            cursor: pointer;
+            color: #6c757d;
+            transition: color 0.2s;
+        }
+        .copy-btn:hover {
+            color: #0d6efd;
+        }
+        .contact-btn {
+            cursor: pointer;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .contact-btn:hover {
+            transform: translateY(-3px);
+        }
+        .contact-icon-box {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            margin-bottom: 8px;
+            font-size: 1.8rem;
+            transition: border-color 0.2s;
+        }
+        .contact-btn:hover .contact-icon-box.wa-box { border-color: #198754; color: #198754; }
+        .contact-btn:hover .contact-icon-box.gm-box { border-color: #dc3545; color: #dc3545; }
+
+        /* Toast Notification Styles */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 30px;
+            padding: 12px 24px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.3s, bottom 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 50px;
+        }
+    </style>
+</head>
+<body class="d-flex align-items-center justify-content-center min-vh-100 p-3">
+
+    <div class="main-card p-4 p-sm-5 container">
+        
+        <!-- App Store Links Section -->
+        <div class="row text-center mb-5">
+            <!-- Play Store -->
+            <div class="col-6 d-flex flex-column align-items-center">
+                <a href="https://play.google.com/store/apps/details?id=com.navi_telematics.tracky.prod" target="_blank" class="text-decoration-none text-dark">
+                    <div class="store-icon-wrapper text-success">
+                        <i class="bi bi-google-play"></i>
+                    </div>
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=com.navi_telematics.tracky.prod" target="_blank" class="btn btn-download w-100 mt-2">Download</a>
+            </div>
+            
+            <!-- App Store -->
+            <div class="col-6 d-flex flex-column align-items-center">
+                <a href="https://apps.apple.com/in/app/trackverse/id6746325658" target="_blank" class="text-decoration-none text-dark">
+                    <div class="store-icon-wrapper text-dark">
+                        <i class="bi bi-apple"></i>
+                    </div>
+                </a>
+                <a href="https://apps.apple.com/in/app/trackverse/id6746325658" target="_blank" class="btn btn-download w-100 mt-2">Download</a>
+            </div>
+        </div>
+
+        <!-- Credentials Section -->
+        <div class="cred-box mb-5">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted fw-medium">Username :</span>
+                <div class="d-flex align-items-center">
+                    <span class="fw-bold me-3 text-break" id="usernameText">ao@hitam.org</span>
+                    <i class="bi bi-copy copy-btn fs-5" onclick="copyToClipboard('usernameText')" title="Copy Username"></i>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+                <span class="text-muted fw-medium">Password :</span>
+                <div class="d-flex align-items-center">
+                    <span class="fw-bold me-3 text-break" id="passwordText">Psai123@.com</span>
+                    <i class="bi bi-copy copy-btn fs-5" onclick="copyToClipboard('passwordText')" title="Copy Password"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="text-center">
+            <h5 class="fw-bold mb-4">Contact us</h5>
+            <div class="d-flex justify-content-center gap-4">
+                
+                <!-- WhatsApp Button -->
+                <div class="contact-btn" onclick="openWhatsApp()">
+                    <div class="contact-icon-box wa-box">
+                        <i class="bi bi-whatsapp"></i>
+                    </div>
+                    <div class="fw-medium">Whatsapp</div>
+                </div>
+
+                <!-- Gmail Button -->
+                <div class="contact-btn" id="gmailButton">
+                    <div class="contact-icon-box gm-box">
+                        <i class="bi bi-envelope"></i>
+                    </div>
+                    <div class="fw-medium">Gmail</div>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Custom Toast Element -->
+    <div id="toast">Copied to clipboard!</div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- App Logic Scripts -->
+    <script>
+        /* =========================================================
+         * TOAST NOTIFICATION UTILITY
+         * ========================================================= */
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.innerText = message;
+            toast.classList.add("show");
+            
+            // Hide after 2.5 seconds
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 2500);
+        }
+
+        /* =========================================================
+         * COPY TO CLIPBOARD UTILITY 
+         * ========================================================= */
+        function copyToClipboard(elementId) {
+            const textToCopy = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                showToast("Copied: " + textToCopy);
+            }).catch(err => {
+                console.error('Failed to copy!', err);
+                showToast("Failed to copy text.");
+            });
+        }
+
+        /* =========================================================
+         * PWA SAFE AREA
+         * ========================================================= */
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            document.querySelector('.container').style.paddingBottom = 'env(safe-area-inset-bottom, 3px)';
+        }
+
+        /* =========================================================
+         * FUNCTION: GET MOBILE OS 
+         * ========================================================= */
+        function getMobileOS() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            
+            // Check for Android
+            if (/android/i.test(userAgent)) {
+                return "Android";
+            }
+            // Check for iPhone / iPad / iPod
+            if (/iPad|iPhone|iPod/.test(userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)) {
+                return "iOS";
+            }
+            return "Unknown";
+        }
+
+        /* =========================================================
+         * FUNCTION: OPEN WHATSAPP
+         * ========================================================= */
+        function openWhatsApp() {
+            const mobileOS = getMobileOS();
+            const message = 
+`*Name:*
+< please write your name, here >
+
+*Mobile OS:*
+${mobileOS}
+
+*Institution:*
+HITAM
+
+*Route no:*
+< please write your bus route number, here >
+
+*Issue:*
+< please write your issue, here >`;
+
+            const phoneNumber = "919010025943";
+            const whatsappURL = "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message);
+            window.location.href = whatsappURL;
+        }
+
+        /* =========================================================
+         * FUNCTION: CREATE EMAIL BODY
+         * ========================================================= */
+        function createEmailBody() {
+            const os = getMobileOS();
+            const body = 
+                'Name:\n' +
+                '< please write your name, here >\n\n' +
+                'Mobile number:\n' +
+                '< please write your mobile number, here >\n\n' +
+                'Mobile OS:\n' +
+                os + '\n\n' +
+                'Institution:\n' +
+                'HITAM\n\n' +
+                'Route no:\n' +
+                '< please write your bus route number, here >\n\n' +
+                'Issue:\n' +
+                '< please write your issue, here >';
+            return body;
+        }
+
+        /* =========================================================
+         * FUNCTION: OPEN EMAIL APPLICATION (Updated for iOS Fallback)
+         * ========================================================= */
+        function openGmail() {
+            const recipient = 'whereismybus22@gmail.com';
+            const subject = 'Issue with app.';
+            const body = createEmailBody();
+            
+            const os = getMobileOS();
+            
+            const encodedSubject = encodeURIComponent(subject);
+            const encodedBody = encodeURIComponent(body);
+            
+            if (os === "iOS") {
+                // Custom URL scheme to force open the Gmail iOS app
+                const gmailAppUrl = `googlegmail:///co?to=${recipient}&subject=${encodedSubject}&body=${encodedBody}`;
+                const fallbackMailto = `mailto:${recipient}?subject=${encodedSubject}&body=${encodedBody}`;
+                
+                // Try opening the Gmail app
+                window.location.href = gmailAppUrl;
+                
+                // If Gmail app is not installed, fallback to native Apple Mail after 500ms
+                setTimeout(function() {
+                    window.location.href = fallbackMailto;
+                }, 500);
+                
+            } else {
+                // For Android and other devices, standard mailto usually prompts an app chooser
+                const mailtoLink = `mailto:${recipient}?subject=${encodedSubject}&body=${encodedBody}`;
+                window.location.href = mailtoLink;
+            }
+        }
+
+        /* =========================================================
+         * BUTTON CLICK EVENT (For Gmail)
+         * ========================================================= */
+        document.getElementById('gmailButton').addEventListener('click', openGmail);
+    </script>
+</body>
+</html>
