@@ -144,7 +144,7 @@
 
     <script>
         /* =========================================================
-         * COPY TO CLIPBOARD UTILITY (Added for Copy Icons)
+         * COPY TO CLIPBOARD UTILITY 
          * ========================================================= */
         function copyToClipboard(elementId) {
             const textToCopy = document.getElementById(elementId).innerText;
@@ -163,7 +163,7 @@
         }
 
         /* =========================================================
-         * FUNCTION: GET MOBILE OS (Merged to prevent duplication)
+         * FUNCTION: GET MOBILE OS 
          * ========================================================= */
         function getMobileOS() {
             const userAgent = navigator.userAgent || navigator.vendor || window.opera;
@@ -227,15 +227,36 @@ HITAM
         }
 
         /* =========================================================
-         * FUNCTION: OPEN EMAIL APPLICATION
+         * FUNCTION: OPEN EMAIL APPLICATION (Updated for iOS Fallback)
          * ========================================================= */
         function openGmail() {
             const recipient = 'whereismybus22@gmail.com';
             const subject = 'Issue with app.';
             const body = createEmailBody();
             
-            const mailtoLink = 'mailto:' + recipient + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-            window.location.href = mailtoLink;
+            const os = getMobileOS();
+            
+            const encodedSubject = encodeURIComponent(subject);
+            const encodedBody = encodeURIComponent(body);
+            
+            if (os === "iOS") {
+                // Custom URL scheme to force open the Gmail iOS app
+                const gmailAppUrl = `googlegmail:///co?to=${recipient}&subject=${encodedSubject}&body=${encodedBody}`;
+                const fallbackMailto = `mailto:${recipient}?subject=${encodedSubject}&body=${encodedBody}`;
+                
+                // Try opening the Gmail app
+                window.location.href = gmailAppUrl;
+                
+                // If Gmail app is not installed, fallback to native Apple Mail after 500ms
+                setTimeout(function() {
+                    window.location.href = fallbackMailto;
+                }, 500);
+                
+            } else {
+                // For Android and other devices, standard mailto usually prompts an app chooser
+                const mailtoLink = `mailto:${recipient}?subject=${encodedSubject}&body=${encodedBody}`;
+                window.location.href = mailtoLink;
+            }
         }
 
         /* =========================================================
