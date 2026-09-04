@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HITAM App Portal</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-bg: #f4f7fe;
+            --card-bg: #ffffff;
+            --text-main: #2b3674;
+            --text-muted: #a3aed1;
+            --btn-dark: #1b2559;
+            --wa-color: #25D366;
+            --gm-color: #EA4335;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f4f7fe 0%, #e2e8f0 100%);
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            color: var(--text-main);
+        }
+
+        .main-card {
+            max-width: 420px;
+            width: 100%;
+            border-radius: 28px;
+            background: var(--card-bg);
+            box-shadow: 0 18px 50px -10px rgba(112, 144, 176, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Store Icons & Buttons */
+        .store-icon-box {
+            width: 80px;
+            height: 80px;
+            border-radius: 22px;
+            background: #f4f7fe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 15px auto;
+            color: var(--btn-dark);
+            box-shadow: inset 0 0 0 1px rgba(112, 144, 176, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .store-col:hover .store-icon-box {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px -5px rgba(112, 144, 176, 0.2);
+            background: #fff;
+        }
+
+        .store-col:hover .bi-google-play { color: #34A853; }
+        .store-col:hover .bi-apple { color: #000000; }
+
+        .btn-download {
+            background: var(--btn-dark);
+            color: white;
+            border-radius: 14px;
+            font-weight: 600;
+            padding: 10px 20px;
+            border: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 16px -4px rgba(27, 37, 89, 0.2);
+        }
+
+        .btn-download:hover {
+            background: #11183b;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px -4px rgba(27, 37, 89, 0.3);
+        }
+
+        /* Credentials Box */
+        .cred-box {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid #e9ecef;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .cred-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .cred-value {
+            font-weight: 600;
+            color: var(--btn-dark);
+            font-size: 1.05rem;
+        }
+
+        .copy-btn {
+            cursor: pointer;
+            color: var(--text-muted);
+            background: white;
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+        }
+
+        .copy-btn:hover {
+            color: #4318FF;
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(67, 24, 255, 0.15);
+        }
+
+        /* Contact Section */
+        .contact-btn {
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .contact-icon-box {
+            width: 65px;
+            height: 65px;
+            background: #ffffff;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--text-muted);
+            margin: 0 auto 10px auto;
+            box-shadow: 0 4px 15px rgba(112, 144, 176, 0.15);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid #f4f7fe;
+        }
+
+        .contact-btn:hover .wa-box { 
+            color: var(--wa-color);
+            border-color: rgba(37, 211, 102, 0.3);
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.2);
+            transform: translateY(-4px);
+        }
+
+        .contact-btn:hover .gm-box { 
+            color: var(--gm-color);
+            border-color: rgba(234, 67, 53, 0.3);
+            box-shadow: 0 8px 20px rgba(234, 67, 53, 0.2);
+            transform: translateY(-4px);
+        }
+
+        .contact-label {
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            transition: color 0.3s ease;
+        }
+
+        /* Toast Notification */
+        #toast {
+            visibility: hidden;
+            min-width: 200px;
+            background: rgba(27, 37, 89, 0.95);
+            backdrop-filter: blur(10px);
+            color: #fff;
+            text-align: center;
+            border-radius: 50px;
+            padding: 14px 24px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            bottom: 20px;
+            transform: translateX(-50%) translateY(20px);
+            font-size: 0.95rem;
+            font-weight: 500;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 10px 30px rgba(27, 37, 89, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+            bottom: 40px;
+        }
+
+        #toast i {
+            font-size: 1.2rem;
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body class="d-flex align-items-center justify-content-center p-3">
+
+    <div class="main-card p-4 p-sm-5 container position-relative">
+        
+        <div class="text-center mb-5">
+            <h4 class="fw-bold" style="color: var(--btn-dark);">Get the App</h4>
+            <p class="text-muted small">Download for your device below</p>
+        </div>
+
+        <div class="row text-center mb-5 gx-4">
+            <div class="col-6 store-col">
+                <a href="https://play.google.com/store/apps/details?id=com.navi_telematics.tracky.prod" target="_blank" class="text-decoration-none">
+                    <div class="store-icon-box">
+                        <i class="bi bi-google-play"></i>
+                    </div>
+                    <button class="btn btn-download w-100">Download</button>
+                </a>
+            </div>
+            
+            <div class="col-6 store-col">
+                <a href="https://apps.apple.com/in/app/trackverse/id6746325658" target="_blank" class="text-decoration-none">
+                    <div class="store-icon-box">
+                        <i class="bi bi-apple"></i>
+                    </div>
+                    <button class="btn btn-download w-100">Download</button>
+                </a>
+            </div>
+        </div>
+
+        <div class="cred-box mb-5">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="cred-label">Username</span>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="cred-value text-break" id="usernameText">ao@hitam.org</span>
+                    <div class="copy-btn" onclick="copyToClipboard('usernameText')" title="Copy Username">
+                        <i class="bi bi-copy"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <hr style="border-color: #e9ecef; margin: 15px 0;">
+
+            <div class="d-flex justify-content-between align-items-center">
+                <span class="cred-label">Password</span>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="cred-value text-break" id="passwordText">Psai123@.com</span>
+                    <div class="copy-btn" onclick="copyToClipboard('passwordText')" title="Copy Password">
+                        <i class="bi bi-copy"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-2">
+            <h6 class="fw-bold mb-4" style="color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; font-size: 0.85rem;">Need Help? Contact Us</h6>
+            <div class="d-flex justify-content-center gap-5">
+                
+                <div class="contact-btn" onclick="openWhatsApp()">
+                    <div class="contact-icon-box wa-box">
+                        <i class="bi bi-whatsapp"></i>
+                    </div>
+                    <div class="contact-label">Whatsapp</div>
+                </div>
+
+                <div class="contact-btn" id="gmailButton">
+                    <div class="contact-icon-box gm-box">
+                        <i class="bi bi-envelope"></i>
+                    </div>
+                    <div class="contact-label">Gmail</div>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+
+    <div id="toast">
+        <i class="bi bi-check-circle-fill"></i>
+        <span>Copied to clipboard!</span>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        /* =========================================================
+         * TOAST NOTIFICATION UTILITY
+         * ========================================================= */
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.querySelector('span').innerText = message;
+            toast.classList.add("show");
+            
+            // Hide after 2.5 seconds
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 2500);
+        }
+
+        /* =========================================================
+         * COPY TO CLIPBOARD UTILITY 
+         * ========================================================= */
+        function copyToClipboard(elementId) {
+            const textToCopy = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                showToast("Copied: " + textToCopy);
+            }).catch(err => {
+                console.error('Failed to copy!', err);
+                showToast("Failed to copy text.");
+            });
+        }
+
+        /* =========================================================
+         * PWA SAFE AREA
+         * ========================================================= */
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            document.querySelector('.container').style.paddingBottom = 'env(safe-area-inset-bottom, 20px)';
+        }
+
+        /* =========================================================
+         * FUNCTION: GET MOBILE OS 
+         * ========================================================= */
+        function getMobileOS() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            if (/android/i.test(userAgent)) return "Android";
+            if (/iPad|iPhone|iPod/.test(userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)) return "iOS";
+            return "Unknown";
+        }
+
+        /* =========================================================
+         * FUNCTION: OPEN WHATSAPP
+         * ========================================================= */
+        function openWhatsApp() {
+            const mobileOS = getMobileOS();
+            const message = 
+`*Name:*
+< please write your name, here >
+
+*Mobile OS:*
+${mobileOS}
+
+*Institution:*
+HITAM
+
+*Route no:*
+< please write your bus route number, here >
+
+*Issue:*
+< please write your issue, here >`;
+
+            const phoneNumber = "919010025943";
+            const whatsappURL = "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message);
+            window.location.href = whatsappURL;
+        }
+
+        /* =========================================================
+         * FUNCTION: CREATE EMAIL BODY
+         * ========================================================= */
+        function createEmailBody() {
+            const os = getMobileOS();
+            return 'Name:\n< please write your name, here >\n\n' +
+                   'Mobile number:\n< please write your mobile number, here >\n\n' +
+                   'Mobile OS:\n' + os + '\n\n' +
+                   'Institution:\nHITAM\n\n' +
+                   'Route no:\n< please write your bus route number, here >\n\n' +
+                   'Issue:\n< please write your issue, here >';
+        }
+
+        /* =========================================================
+         * FUNCTION: OPEN EMAIL APPLICATION
+         * ========================================================= */
+        function openGmail() {
+            const recipient = 'whereismybus22@gmail.com';
+            const subject = 'Issue with app.';
+            const body = createEmailBody();
+            const os = getMobileOS();
+            
+            const encodedSubject = encodeURIComponent(subject);
+            const encodedBody = encodeURIComponent(body);
+            
+            if (os === "iOS") {
+                const gmailAppUrl = `googlegmail:///co?to=${recipient}&subject=${encodedSubject}&body=${encodedBody}`;
+                const fallbackMailto = `mailto:${recipient}?subject=${encodedSubject}&body=${encodedBody}`;
+                
+                window.location.href = gmailAppUrl;
+                setTimeout(function() { window.location.href = fallbackMailto; }, 500);
+            } else {
+                window.location.href = `mailto:${recipient}?subject=${encodedSubject}&body=${encodedBody}`;
+            }
+        }
+
+        document.getElementById('gmailButton').addEventListener('click', openGmail);
+    </script>
+</body>
+</html>
